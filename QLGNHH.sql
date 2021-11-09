@@ -26,7 +26,7 @@ manv char(4) not null primary key,
 hoten varchar(40) not null,
 gt varchar(5) default 'Nam',
 sdt varchar(11) unique,
-nglv datetime,
+nglv datetime2,
 calamviec varchar(10),
 phuongtien_vc varchar(20),
 );
@@ -43,8 +43,8 @@ diachinhan varchar(100),
 pt_thanhtoan varchar(20),
 dongia_vc money,
 ung money,
-ngaydathang datetime,
-ngaygiaohang datetime
+ngaydathang datetime2,
+ngaygiaohang datetime2
 );
 
 select * from DONHANG
@@ -67,8 +67,8 @@ insert into MATHANG values
 insert into SHIPPER values
 ('SP01', 'Nguyen Hai Bang', 'Nam', '0397067138', '13-12-2019', 'Sang', 'Xe may'),
 ('SP02', 'Pham Tung Anh', 'Nam', '0837701273', '07-01-2020', 'Chieu', 'Xe may'),
-('SP03', 'Bui Ba Phuoc', 'Nam', '0838594225 ', '17-04-2021', 'Fulltime', 'O to'),
-('SP04', 'Le Thuy Phuong', 'Nu', '0438688165', '28-02-2018', 'Chieu', 'Xe may'),
+('SP03', 'Bui Ba Phuoc', 'Nam', '0838594225', '17-04-2021', 'Fulltime', 'O to'),
+('SP04', 'Le Thuy Phuong', 'Nu', '0438688165', '28-03-2018', 'Chieu', 'Xe may'),
 ('SP05', 'Dang Nha Linh', 'Nu', '0483894767', '05-08-2019', 'Sang', 'Xe may')
 
 insert into DONHANG values
@@ -82,3 +82,9 @@ insert into DONHANG values
 ('DH08', 'KH04', 'MH04', 'SP05', 'Cau Giay, Ha Noi', 'Tien mat', 30000, 3000000, '07-09-2021', '09-09-2021'),
 ('DH09', 'KH02', 'MH01', 'SP04', 'Hoang Mai, Ha Noi', 'The ngan hang', 30000, 0, '09-10-2021', '10-10-2021'),
 ('DH10', 'KH04', 'MH05', 'SP01', 'Cau Giay, Ha Noi', 'Tien mat', 30000, 200000, '18-10-2021', '19-10-2021')
+
+--Lap danh sach cach thanh toan cua khach hang
+select makh, pt_thanhtoan from DONHANG
+
+Select mahh from DONHANG
+Where ngaygiaohang != 'null'
