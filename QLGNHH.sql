@@ -2,6 +2,8 @@ create database QLGNHH
 use QLGNHH
 set dateformat DMY
 
+drop database QLGNHH
+
 create table KHACHHANG (
 MAKH char(4) not null primary key,
 HOTEN varchar(40),
@@ -9,17 +11,11 @@ sdt varchar(11),
 diachi varchar(50),
 );
 
-select * from KHACHHANG
-drop table KHACHHANG
-
 create table MATHANG(
 MAHH char(4) not null primary key,
 tenhang varchar(30),
 dongia money
 );
-
-select * from MATHANG
-drop table MATHANG
 
 create table SHIPPER(
 manv char(4) not null primary key,
@@ -31,9 +27,6 @@ calamviec varchar(10),
 phuongtien_vc varchar(20),
 );
 
-select * from SHIPPER
-drop table SHIPPER
-
 create table DONHANG(
 MADH char(4) not null primary key,
 makh char(4) references KHACHHANG(makh),
@@ -43,12 +36,9 @@ diachinhan varchar(100),
 pt_thanhtoan varchar(20),
 dongia_vc money,
 ung money,
-ngaydathang datetime2,
-ngaygiaohang datetime2
+ngaydathang date,
+ngaygiaohang date
 );
-
-select * from DONHANG
-drop table DONHANG
 
 insert into KHACHHANG values 
 ('KH01', 'Trieu Viet Hung', '0822010701', '18/62, Mai Dong, Hoang Mai, Ha Noi'),
@@ -83,8 +73,35 @@ insert into DONHANG values
 ('DH09', 'KH02', 'MH01', 'SP04', 'Hoang Mai, Ha Noi', 'The ngan hang', 30000, 0, '09-10-2021', '10-10-2021'),
 ('DH10', 'KH04', 'MH05', 'SP01', 'Cau Giay, Ha Noi', 'Tien mat', 30000, 200000, '18-10-2021', '19-10-2021')
 
---Lap danh sach cach thanh toan cua khach hang
-select makh, pt_thanhtoan from DONHANG
+-- Lap danh sach cac khach hang
+select * from KHACHHANG
+-- Lap danh sach cac mat hang
+select * from MATHANG
+-- Lap danh sach cac shipper
+select * from SHIPPER
+-- Lap danh sach cac don hang
+select * from DONHANG
 
-Select mahh from DONHANG
-Where ngaygiaohang != 'null'
+
+--Lap danh sach tat ca don hang ma khach hang da mua
+select KHACHHANG.HOTEN as 'Ten khach', MATHANG.tenhang as 'Ten mat hang', DONHANG.ngaydathang as 'Ngay dat hang'
+from KHACHHANG, MATHANG, DONHANG
+where MATHANG.MAHH=DONHANG.mahh and KHACHHANG.MAKH=DONHANG.makh
+
+-- Lap danh sach don hang da giao trong 1 ngay cu the
+Select KHACHHANG.HOTEN as 'Ten khach', MATHANG.tenhang as 'Ten mat hang', 
+	   DONHANG.ngaydathang as 'Ngay dat hang', DONHANG.ngaydathang as 'Ngay giao hang'
+from KHACHHANG, DONHANG, MATHANG
+Where KHACHHANG.MAKH=DONHANG.makh and MATHANG.MAHH=DONHANG.mahh and DONHANG.ngaygiaohang = '01-11-2021'
+
+-- Lap danh sach don hang ma khach hang cu the da mua
+select KHACHHANG.HOTEN as 'Ten khach', MATHANG.tenhang as 'Ten mat hang', DONHANG.ngaydathang as 'Ngay dat hang'
+from KHACHHANG, MATHANG, DONHANG
+where MATHANG.MAHH=DONHANG.mahh and KHACHHANG.MAKH=DONHANG.makh and KHACHHANG.HOTEN='Trieu Viet Hung'
+
+-- Lap danh sach khach hang da mua hang va tong gia tri don hang do
+select DONHANG.MADH as 'Ma don hang', KHACHHANG.HOTEN as 'Ten khach', MATHANG.tenhang as 'Ten mat hang', DONHANG.ngaydathang as 'Ngay dat hang', 
+	   DONHANG.dongia_vc as 'Gia van chuyen', MATHANG.dongia as 'Don gia', DONHANG.dongia_vc + MATHANG.dongia as [Thanh tien]
+from KHACHHANG, MATHANG, DONHANG
+where MATHANG.MAHH=DONHANG.mahh and KHACHHANG.MAKH=DONHANG.makh
+order by DONHANG.ngaydathang ASC
