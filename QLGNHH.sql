@@ -1,6 +1,5 @@
 create database QLGNHH
 use QLGNHH
-set dateformat DMY
 
 drop database QLGNHH
 
@@ -82,20 +81,24 @@ select * from SHIPPER
 -- Lap danh sach cac don hang
 select * from DONHANG
 
+-- thiet lap dinh dang ngay, thang, nam (dd/mm/yyyy)
+set dateformat dmy
 
 --Lap danh sach tat ca don hang ma khach hang da mua
-select KHACHHANG.HOTEN as 'Ten khach', MATHANG.tenhang as 'Ten mat hang', DONHANG.ngaydathang as 'Ngay dat hang'
+select KHACHHANG.HOTEN as 'Ten khach', MATHANG.tenhang as 'Ten mat hang', FORMAT(DONHANG.ngaydathang, 'dd/MM/yyyy') as 'Ngay dat hang',
+	   FORMAT(DONHANG.ngaygiaohang, 'dd/MM/yyyy') as 'Ngay giao hang'
 from KHACHHANG, MATHANG, DONHANG
 where MATHANG.MAHH=DONHANG.mahh and KHACHHANG.MAKH=DONHANG.makh
 
 -- Lap danh sach don hang da giao trong 1 ngay cu the
 Select KHACHHANG.HOTEN as 'Ten khach', MATHANG.tenhang as 'Ten mat hang', 
-	   DONHANG.ngaydathang as 'Ngay dat hang', DONHANG.ngaydathang as 'Ngay giao hang'
+	   FORMAT(DONHANG.ngaydathang, 'dd/MM/yyyy') as 'Ngay dat hang', FORMAT(DONHANG.ngaygiaohang, 'dd/MM/yyyy') as 'Ngay giao hang'
 from KHACHHANG, DONHANG, MATHANG
-Where KHACHHANG.MAKH=DONHANG.makh and MATHANG.MAHH=DONHANG.mahh and DONHANG.ngaygiaohang = '01-11-2021'
+Where MATHANG.MAHH=DONHANG.mahh and KHACHHANG.MAKH=DONHANG.makh and DONHANG.ngaygiaohang = '01-11-2021'
 
 -- Lap danh sach don hang ma khach hang cu the da mua
-select KHACHHANG.HOTEN as 'Ten khach', MATHANG.tenhang as 'Ten mat hang', DONHANG.ngaydathang as 'Ngay dat hang'
+select KHACHHANG.HOTEN as 'Ten khach', MATHANG.tenhang as 'Ten mat hang',
+	   FORMAT(DONHANG.ngaydathang, 'dd/MM/yyyy') as 'Ngay dat hang'
 from KHACHHANG, MATHANG, DONHANG
 where MATHANG.MAHH=DONHANG.mahh and KHACHHANG.MAKH=DONHANG.makh and KHACHHANG.HOTEN='Trieu Viet Hung'
 
