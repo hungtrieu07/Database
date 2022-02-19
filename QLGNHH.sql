@@ -1,8 +1,6 @@
 create database QLGNHH
 use QLGNHH
 
-drop database QLGNHH
-
 create table KHACHHANG (
 MAKH char(4) not null primary key,
 HOTEN varchar(40),
