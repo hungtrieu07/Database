@@ -159,9 +159,9 @@ where KHACHHANG.MAKH=DONHANG.makh and MATHANG.MAHH=DONHANG.mahh and diachinhan='
 declare @luongcoban money
 set @luongcoban = 1000000
 declare @thuong money
-
 select SHIPPER.hoten as 'Ten nhan vien', SHIPPER.manv as 'Ma nhan vien', count(*) as 'So don hang da giao', 
-sum(DONHANG.dongia_vc * 50 / 100) as 'Tien luong dua tren don hang' , @luongcoban as 'Luong co ban'
+sum(DONHANG.dongia_vc * 70 / 100) as 'Tien luong dua tren don hang', @luongcoban as 'Luong co ban',
+sum(DONHANG.dongia_vc * 70 / 100) + @luongcoban as 'Tong luong'
 from SHIPPER, DONHANG
 where DONHANG.manv=SHIPPER.manv and DONHANG.tinhtrang='Da giao'
 group by SHIPPER.hoten, SHIPPER.manv
